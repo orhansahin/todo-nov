@@ -1,0 +1,63 @@
+{% extends "todo_app/base.html" %}
+
+{% block title %}
+  Home Page
+{% endblock title %}
+
+{% block content %}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1 class="display-4"><center>TO-DO List</center></h1>
+      <p class="lead"><center>Novumare Django Project</center></p>
+      <div class="text-center">
+        <a class="btn btn-outline-success" href="{% url 'create' %}" role="button">Create New To-Do</a>
+      </div> 
+    </div>
+  </div>
+
+<div class="container">
+  <table class="table table-sortable">
+    <thead>
+      <tr>
+        <th scope="col">To-Do name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Status</th>
+        <th scope="col">Date</th>
+        <th scope="col">Deadline</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Update</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for todo in todo_list %}
+        {% if todo.finished %}    
+        <tr>
+          <td><del>{{ todo.title }}</del></td>
+          <td><del>{{ todo.description }}</del></td>
+          <td><a class="btn btn-success" href="{% url 'finished' todo.id %}" role="button">Completed</a></td>
+          <td>{{ todo.date }}</td>
+          <td>{{ todo.deadline }}</td>
+          <td><a class="btn btn-danger" href="{% url 'delete' todo.id %}" role="button">Delete</a></td>
+          <td><a class="btn btn-warning" href="{% url 'update' todo.id %}" role="button">Update</a></td>
+        </tr>
+        {% else %}
+        <tr>
+          <td>{{ todo.title }}</td>
+          <td>{{ todo.description }}</td>
+          <td><a class="btn btn-outline-success" href="{% url 'not_finished' todo.id %}" role="button">On-Going</a></td>
+          <td>{{ todo.date }}</td>
+          <td>{{ todo.deadline }}</td>
+          <td><a class="btn btn-danger" href="{% url 'delete' todo.id %}" role="button">Delete</a></td>
+          <td><a class="btn btn-warning" href="{% url 'update' todo.id %}" role="button">Update</a></td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      
+    </tbody>
+    </table>
+
+    
+</div>
+
+{% endblock content %}
